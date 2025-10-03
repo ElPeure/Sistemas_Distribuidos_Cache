@@ -40,6 +40,7 @@ El proyecto depende del modelo **`phi3`** dentro del contenedor de Ollama. Si el
 El sistema requiere espacio de disco suficiente para el almacenamiento de:
 * La imagen y el contenedor de **Ollama** (incluyendo el modelo `phi3`).
 * La base de datos **MySQL** con los datos de caché.
+* Sistema cache para LRU y LFU
 
 ---
 
