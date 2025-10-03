@@ -1,0 +1,127 @@
+
+3. Generador de Respuestas: Recibe las preguntas que no fueron resueltas por la caché, las procesa
+y las envía al LLM para obtener una respuesta actualizada.
+
+4. Score: evalúa cercanía de las respuestas obtenidas desde el LLM con la mejor respuesta del
+dataset de Yahoo!
+
+--------------------------------- Generador de Respuestas ------------------------------------------
+
+1.- A este le llegaran Preguntas 
+
+                     ¿Como hacemos que este haga preguntas en base al dataset?
+
+// Vamos a descargar las preguntas (test) y vamos a tomar la columna de preguntas la cual es la tercera y la cuarta la de las respuestas
+
+
+
+2.- Tenemos que usar un LLM el cual responda dichas preguntas que lleguen 
+
+                                 ¿Cual y como lo usaremos?
+
+//Usaremos ollama ya que este permite mas de 10000 preguntas sin costo ( Gemini permite ciertas consultas por dia ) 
+lo descargaremos dentro del contenedor ---->       docker exec -it ollama bash (entra en el contenedor)  --- luego --> ollama pull phi3
+(descargamos ollama en en contenedor ollama en la carpeta root)
+verificamos que esta instalado   ---->     ollama list (dentro del contenedor de ollama para saber que se descargo)
+
+----listo-----
+
+3.- Hay que hacer una metrica la cual nos diga que tan acertada es la pregunta del LLM en base al dataset entregado por el profe
+
+                                     ¿Como lo hacemos?   
+                                     
+// Segun el informe es una metrica crada por nosotros mismos, asi que usaremos (cosine similarity con embeddings)
+el cual compara el dataset con la respuesta que nosotros le entreguemos.
+
+
+                                         Metrica
+
+1.0 → respuestas casi idénticas en significado.
+
+0.5 → algo de relación, pero no muy fuerte.
+
+0.0 → no se parecen nada.
+
+
+----listo-----
+
+
+-----------------------------------Problemas a resolver----------------------------------------
+1.- Tengo que ver si se entrena o no el LLM. SOLUCIONADOOOO
+2.- Tengo que ver si la metrica la inventamos nosotros. SOLUCIONADOOOO
+3.- Tengo que esperar a que el compañero me indique como me mandara los datos y en que ambiente programaremos LO HAREMOS NOSOTROS (SOLUCIONADOOOO)
+4.- Tengo que hacer que pesquen el modelo llama3 SOLUCIONADOOOOO
+5.- Tengo que hacer que el codigo funcione SOLUCIONADOOO
+
+
+
+--------------------------------Parte Compañero------------------------------------------------
+1. Generador de Tráfico: Simula las solicitudes de los usuarios al sistema, iniciando el flujo de
+consulta. HECHOOOOOOOOOOOOOO
+
+2. Caché: Captura las solicitudes entrantes. Si la respuesta a una pregunta ya se encuentra alma-
+cenada en memoria, actualiza el sistema de almacenamiento. De lo contrario, delega la solicitud
+al siguiente módulo del pipeline.
+
+3. Generador de Respuestas: Recibe las preguntas que no fueron resueltas por la caché, las procesa
+y las envía al LLM para obtener una respuesta actualizada. HECHOOOOOOOOOOOOOOOO
+
+4. Score: evalúa cercanía de las respuestas obtenidas desde el LLM con la mejor respuesta del
+dataset de Yahoo! HECHOOOOOOOOOOOOOOOO
+
+5. Almacenamiento: Persiste de forma permanente la información relevante, incluyendo la pregunta
+original, su respuesta del dataset y la nueva respuesta generada por el LLM. HECHOOOOOO (HAY QUE CONFIRMAR SI SE ALMACENA BIEN AL FINAL)
+
+
+
+-----------------------------------Problemas a resolver----------------------------------------
+
+1.- Hay que crear el cache con lo solicitado
+2.-Al resetear los contenedores se borro la IA ollama, hay que volver a instalar dentro del contenedor.
+
+
+-----------------------------------  Avance ---------------------------------------------------
+
+                        ¿Como entro a mi sabe mysql?
+
+>> mysql -h mysql_base -u usuario -p mi_base
+
+                 Ver bases de datos dentro del contenedor
+
+>> SHOW DATABASES;
+
+             Como poder ingresar a la base que nos interesa
+
+>> USE mi_base;
+
+             Como ver las tablas
+
+>> SHOW TABLES;
+
+            Como vemos la tabla 
+
+>> DESCRIBE respuestas;
+
+
+
+               ¿Como vamos a implementar un sistema cache?
+
+Haremos dos bases LRU y LFU en donde estas estaran refrescandoce con un TTL en donde el TTL se refresca despues de un tiempo determinado
+cada ves que no encuentra una respuesta correcta se pasa a ollama y este luego se guarda en la base de datos y tambien al cache.Se uso cachetools el cual permite que no tengamos que hacer 
+un contenedor unico para el cache y matplotlib para la grafica
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+

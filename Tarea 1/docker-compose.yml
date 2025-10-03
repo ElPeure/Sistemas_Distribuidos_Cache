@@ -1,0 +1,44 @@
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+  mysql_base:
+    image: mysql:8.0
+    container_name: base
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: mi_base
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: pass123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: yahoo
+    depends_on:
+      - ollama
+    volumes:
+      - ./app:/app          # código Python
+      - ./preguntas:/preguntas        # dataset local
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+    command: ["python", "LLM.py"]
+volumes:
+  ollama_data:
+  mysql_data:
