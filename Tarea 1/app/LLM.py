@@ -82,6 +82,9 @@ def get_from_cache(pregunta, db_conn):
                 cache_lfu[pregunta] = respuesta
             timestamps[pregunta] = now
 
+    return respuesta_cache
+
+
 
 
 def update_cache(pregunta, respuesta):
@@ -174,8 +177,10 @@ for i in range(10000):
     logging.info("Score: %.6f", score)
   
     try:
-          cursor.execute(insert_sql, (pregunta, respuesta_real, respuesta, score))
+          with conn.cursor() as cursor:
+           cursor.execute(insert_sql, (pregunta, respuesta_real, respuesta, score))
           count += 1
+          conn.commit()
     except Exception:
           logging.exception("Error al insertar en la BD, se omite esta fila.")
   
