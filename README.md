@@ -43,6 +43,4 @@ El sistema requiere espacio de disco suficiente para el almacenamiento de:
 
 ---
 
-## ▶️ Ejecución del Proyecto
-
 Una vez completados los pasos de configuración y asegurado el espacio de almacenamiento, el programa puede ser ejecutado sin riesgo de fallos por dependencias.
