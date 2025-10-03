@@ -1,4 +1,4 @@
-### Tarea 1: Sistema de Caché Distribuido con Ollama y MySQL 
+## Tarea 1: Sistema de Caché Distribuido con Ollama y MySQL 
 
 Este documento describe los pasos necesarios para la correcta configuración y ejecución del proyecto de Sistemas Distribuidos, asegurando que todos los componentes, incluido el modelo de lenguaje (LLM) `phi3`, estén listos.
 
